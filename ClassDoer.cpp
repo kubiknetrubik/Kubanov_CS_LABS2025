@@ -1,10 +1,14 @@
 #include <iostream>
 #include "ClassDoer.hpp"
 #include "planet/planet.hpp"
+#include <cstring>
 namespace{}
 namespace ClassDoer{
 void ExecuteMenu() {
     int task = 0;
+    char* fileName="DataBase.txt";
+    int size=1;
+    PlanetZone::Planet* planets=new PlanetZone::Planet[size];
     while (static_cast<Command>(task) != Command::Exit) {
         std::cout << "Выберите номер, интересующего вас задания, и введите его в консоль для перехода\n";
         std::cout << "1. Чтение БД из файла\n";
@@ -18,8 +22,9 @@ void ExecuteMenu() {
         switch (static_cast<Command>(task)) {
             case Command::Read: {
                 std::cout << "1 " << std::endl;
-                Planet::Planet p1("zalupa",20,true,3);
-                std::cout<<p1.GetN()<<"   "<<p1.GetD();
+                PlanetZone::Planet::ReadDB(fileName,planets,size);
+                PlanetZone::Planet::Print(planets,size);
+
 
                 break;
             }
@@ -49,6 +54,7 @@ void ExecuteMenu() {
             }
             case Command::Exit: {
                 std::cout << "7" << std::endl;
+                PlanetZone::Planet::DeleteDB(planets,size);
                 break;
             }
             default: {
