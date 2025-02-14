@@ -23,7 +23,9 @@ void ExecuteMenu() {
             case Command::Read: {
                 std::cout << "1 " << std::endl;
                 PlanetZone::Planet::ReadDB(fileName,planets,size);
-                PlanetZone::Planet::Print(planets,size);
+                std::cout<<size;
+                PlanetZone::Planet::Print(planets,size-1);
+
 
 
                 break;

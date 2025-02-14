@@ -25,7 +25,7 @@ public:
     static void DeleteDB(Planet* planets,int size);
 
     static void Print(Planet* planets,int size);
-    static void Resize(Planet* planets,int& size);
+    static void Resize(Planet*& planets,int& size);
     static void ReadDB(char* fileName,Planet* planets,int& size);
 };
 }
