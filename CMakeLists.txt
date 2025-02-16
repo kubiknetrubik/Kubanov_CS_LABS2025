@@ -22,6 +22,8 @@ set(${project}_SOURCE_LIST
 
 
 add_executable(${CMAKE_PROJECT_NAME} ${SOURCES} ${HEADERS})
-
+if(ENABLE_DEBUG)
+    target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE -g3)
+endif()
 target_link_libraries(${project} planet)
 target_link_libraries(${project} mymat)

@@ -16,11 +16,8 @@ Planet::Planet(const char* n, double d, bool l, int sn) {
     diametr = d;
     life = l;
     sateliteNumber = sn;
-    name = new char[strlen(n)];
+    name = new char[strlen(n) + 1];
     strcpy(name, n);
-}
-Planet::~Planet() {
-    delete[] name;
 }
 
 void Planet::DeleteN() {
@@ -40,7 +37,10 @@ int Planet::GetSN() {
 }
 
 void Planet::SetN(char* n) {
-    name = new char[strlen(n)];
+    if (name) {
+        delete[] name;
+    }
+    name = new char[strlen(n) + 1];
     strcpy(name, n);
 }
 void Planet::SetD(double d) {
@@ -53,7 +53,7 @@ void Planet::SetSN(int sn) {
     sateliteNumber = sn;
 }
 
-void Planet::DeleteDB(Planet* planets, int size) {
+void Planet::DeleteDB(Planet*& planets, int size) {
     for (int i = 0; i < size; ++i) {
         planets[i].DeleteN();
     }
@@ -80,15 +80,16 @@ void Planet::Resize(Planet*& planets, int& size) {
 
     Planet* oldPlanets = planets;
     planets = newPlanets;
-
-
+    DeleteDB(oldPlanets,size);
     ++size;
+
 }
 
 void Planet::ReadDB(char* fileName, Planet* planets, int& size) {
     std::ifstream inStream(fileName);
     char ch{};
     int lineC = 0;
+    int num = 0;
     char nameP[buffSize];
     double dP;
     bool lP;
@@ -102,30 +103,40 @@ void Planet::ReadDB(char* fileName, Planet* planets, int& size) {
 
     inStream.close();
     inStream.open(fileName);
-    std::cout << lineC;
-    while (size - 1 < lineC) {
+
+    while (num < 2) {
         if (c % q == 0) {
+            if (c != 0) {
+                if (planets == nullptr) {
+                    std::cerr << "Ошибка: указатель planets == nullptr перед Resize!" << std::endl;
+                }
+                Resize(planets, size);
+            }
             inStream >> nameP;
             ++c;
+            std::cout << nameP << std::endl;
             planets[size - 1].SetN(nameP);
+            std::cout << size << planets[size - 1].GetN() << std::endl;
         }
         if (c % q == 1) {
             inStream >> dP;
             ++c;
+            std::cout << dP << std::endl;
             planets[size - 1].SetD(dP);
         }
         if (c % q == 2) {
             inStream >> lP;
             ++c;
+            std::cout << lP << std::endl;
             planets[size - 1].SetL(lP);
         }
         if (c % q == 3) {
             inStream >> sateliteP;
             ++c;
+            std::cout << sateliteP << std::endl;
+            std::cout << "NUM" << num;
             planets[size - 1].SetSN(sateliteP);
-
-            Resize(planets, size);
-
+            ++num;
         }
     }
     inStream.close();

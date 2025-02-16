@@ -10,7 +10,6 @@ set(${project}_SOURCES
 
 set(${project}_HEADERS
         planet.hpp)
-
 set(${project}_SOURCE_LIST
         ${${project}_SOURCES}
         ${${project}_HEADERS})

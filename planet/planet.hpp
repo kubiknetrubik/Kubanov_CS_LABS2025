@@ -11,7 +11,7 @@ private:
 public:
     Planet();
     Planet(const char* n,double d,bool l,int sn);
-    ~Planet();
+
     void DeleteN();
     char* GetN();
     double GetD();
@@ -22,7 +22,7 @@ public:
     void SetL(bool l);
     void SetSN(int sn);
 
-    static void DeleteDB(Planet* planets,int size);
+    static void DeleteDB(Planet*& planets,int size);
 
     static void Print(Planet* planets,int size);
     static void Resize(Planet*& planets,int& size);
