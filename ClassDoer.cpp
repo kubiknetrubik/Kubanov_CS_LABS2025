@@ -1,14 +1,17 @@
-#include <iostream>
 #include "ClassDoer.hpp"
-#include "planet/planet.hpp"
 #include <cstring>
-namespace{}
-namespace ClassDoer{
+#include <iostream>
+#include "planet/planet.hpp"
+namespace {
+const int buffSize = 100;
+}
+namespace ClassDoer {
 void ExecuteMenu() {
     int task = 0;
-    char* fileName="DataBase.txt";
-    int size=1;
-    PlanetZone::Planet* planets=new PlanetZone::Planet[size];
+    char* fileName = "DataBase.txt";
+    int size = 1;
+
+    PlanetZone::Planet* planets = new PlanetZone::Planet[size];
     while (static_cast<Command>(task) != Command::Exit) {
         std::cout << "Выберите номер, интересующего вас задания, и введите его в консоль для перехода\n";
         std::cout << "1. Чтение БД из файла\n";
@@ -21,42 +24,40 @@ void ExecuteMenu() {
         std::cin >> task;
         switch (static_cast<Command>(task)) {
             case Command::Read: {
-                std::cout << "1 " << std::endl;
-                PlanetZone::Planet::ReadDB(fileName,planets,size);
-                std::cout<<"KAKA";
-                PlanetZone::Planet::Print(planets,size);
-
-
+                PlanetZone::Planet::ReadDB(fileName, planets, size);
 
                 break;
             }
             case Command::Write: {
-                std::cout << "2" << std::endl;
+                PlanetZone::Planet::WriteDB(fileName, planets, size);
 
                 break;
             }
             case Command::Sort: {
-                std::cout << "3 " << std::endl;
+                PlanetZone::Planet::SortDB(planets, size);
 
                 break;
             }
             case Command::Add: {
-                std::cout << "4 " << std::endl;
+                std::cout << size;
+                PlanetZone::Planet::AddEl(planets, size);
 
                 break;
             }
             case Command::Delete: {
-                std::cout << "5" << std::endl;
+                char remove[buffSize]{};
+                std::cout << "Введите название планеты для удаления: " << std::endl;
+                std::cin >> remove;
+                PlanetZone::Planet::DeleteEl(planets, size, remove);
 
                 break;
             }
             case Command::Print: {
-                std::cout << "6" << std::endl;
+                PlanetZone::Planet::Print(planets, size);
                 break;
             }
             case Command::Exit: {
-                std::cout << "7" << std::endl;
-                PlanetZone::Planet::DeleteDB(planets,size);
+                PlanetZone::Planet::DeleteDB(planets, size);
                 break;
             }
             default: {
@@ -65,6 +66,5 @@ void ExecuteMenu() {
             }
         }
     }
-
 }
-}
+}  // namespace ClassDoer

@@ -5,12 +5,18 @@
 namespace {
 const int buffSize = 100;
 const int q = 4;
+
 }  // namespace
 namespace PlanetZone {
+int Planet::total = 0;
 Planet::Planet() {
+    name = nullptr;
     diametr = 0;
     life = true;
     sateliteNumber = 0;
+    total++;
+    id = total;
+    std::cout << "Создание ID " << id << std::endl;
 }
 Planet::Planet(const char* n, double d, bool l, int sn) {
     diametr = d;
@@ -19,9 +25,14 @@ Planet::Planet(const char* n, double d, bool l, int sn) {
     name = new char[strlen(n) + 1];
     strcpy(name, n);
 }
+Planet::~Planet() {
+    total--;
+    std::cout << "Удаление ID " << id << std::endl;
+}
 
 void Planet::DeleteN() {
     delete[] name;
+    name = nullptr;
 }
 char* Planet::GetN() {
     return name;
@@ -53,92 +64,165 @@ void Planet::SetSN(int sn) {
     sateliteNumber = sn;
 }
 
-void Planet::DeleteDB(Planet*& planets, int size) {
-    for (int i = 0; i < size; ++i) {
-        planets[i].DeleteN();
+std::ofstream& operator<<(std::ofstream& out, Planet& el) {
+    out << el.GetN() << " " << el.GetD() << " " << el.GetL() << " " << el.GetSN() << std::endl;
+    return out;
+}
+std::ifstream& operator>>(std::ifstream& in, Planet& el) {
+    char nameP[buffSize]{};
+    double dP{};
+    bool lP{};
+    int sateliteP{};
+    in >> nameP >> dP >> lP >> sateliteP;
+    el.SetN(nameP);
+    el.SetD(dP);
+    el.SetL(lP);
+    el.SetSN(sateliteP);
+
+    return in;
+}
+bool operator==(Planet& el, Planet& el2) {
+    if (el.GetD() == el2.GetD()) {
+        return true;
     }
-    delete[] planets;
-    planets = nullptr;
+    return false;
+}
+bool operator<(Planet& el, Planet& el2) {
+    if (el.GetD() < el2.GetD()) {
+        return true;
+    }
+    return false;
+}
+Planet& Planet::operator=(Planet& el) {
+    this->SetN(el.GetN());
+    this->SetD(el.GetD());
+    this->SetL(el.GetL());
+    this->SetSN(el.GetSN());
+    return *this;
+}
+void Planet::SortDB(Planet*& planets, int& size) {
+    if (planets) {
+        Planet temp;
+        for (int i = 0; i < size - 1; ++i) {
+            for (int j = 0; j < size - 1 - i; ++j) {
+                if (planets[j] < planets[j + 1]) {
+                    temp = planets[j];
+                    planets[j] = planets[j + 1];
+                    planets[j + 1] = temp;
+                }
+            }
+        }
+    }
+}
+void Planet::DeleteEl(Planet*& planets, int& size, const char* remove) {
+    if (planets) {
+        for (int i = 0; i < size; ++i) {
+            if (!strcmp(planets[i].GetN(), remove)) {
+                planets[i].DeleteN();
+                Planet* newPlanets = new Planet[size - 1]();
+
+                for (int j = i; j < size - 1; ++j) {
+                    planets[j] = planets[j + 1];
+                }
+
+                for (int i = 0; i < size - 1; ++i) {
+                    newPlanets[i] = planets[i];
+                }
+                DeleteDB(planets, size);
+                planets = newPlanets;
+
+                size--;
+                break;
+            } else if (i == size - 1) {
+                std::cout << "No element" << std::endl;
+            }
+        }
+    }
+}
+void Planet::AddEl(Planet*& planets, int& size) {
+    if (planets) {
+        Resize(planets, size);
+
+        char nameP[buffSize];
+        double dP;
+        bool lP;
+        int sateliteP;
+        std::cout << "Введите навзание планеты, ее диаметр, характер жизни(0/1) и количество спутников" << std::endl;
+        std::cin >> nameP >> dP >> lP >> sateliteP;
+        planets[size - 1].SetN(nameP);
+        planets[size - 1].SetD(dP);
+        planets[size - 1].SetL(lP);
+        planets[size - 1].SetSN(sateliteP);
+    }
 }
 
-void Planet::Print(Planet* planets, int size) {
-    for (int i = 0; i < size; ++i) {
-        std::cout << planets[i].GetN() << " " << planets[i].GetD() << " " << planets[i].GetL() << " " << planets[i].GetSN() << std::endl;
+void Planet::WriteDB(char* fileName, Planet*& planets, int& size) {
+    if (planets) {
+        std::ofstream outStream(fileName);
+
+        for (int i = 0; i < size; ++i) {
+            outStream << planets[i];
+        }
+        outStream.close();
+    }
+}
+
+void Planet::DeleteDB(Planet*& planets, int& size) {
+    if (planets) {
+        for (int i = 0; i < size; ++i) {
+            planets[i].DeleteN();
+        }
+        delete[] planets;
+        planets = nullptr;
+    }
+}
+
+void Planet::Print(Planet*& planets, int size) {
+    if (planets) {
+        for (int i = 0; i < size; ++i) {
+            std::cout << planets[i].GetN() << " " << planets[i].GetD() << " " << planets[i].GetL() << " " << planets[i].GetSN() << std::endl;
+        }
     }
 }
 
 void Planet::Resize(Planet*& planets, int& size) {
-    Planet* newPlanets = new Planet[size + 1]();
+    if (planets) {
+        Planet* newPlanets = new Planet[size + 1]();
 
-    for (int i = 0; i < size; ++i) {
-        newPlanets[i].SetN(planets[i].GetN());
-        newPlanets[i].SetD(planets[i].GetD());
-        newPlanets[i].SetL(planets[i].GetL());
-        newPlanets[i].SetSN(planets[i].GetSN());
+        for (int i = 0; i < size; ++i) {
+            newPlanets[i] = planets[i];
+        }
+
+        DeleteDB(planets, size);
+        planets = newPlanets;
+        ++size;
     }
-    std::cout << size << " " << newPlanets[size - 1].GetN() << std::endl;
-
-    Planet* oldPlanets = planets;
-    planets = newPlanets;
-    DeleteDB(oldPlanets,size);
-    ++size;
-
 }
 
-void Planet::ReadDB(char* fileName, Planet* planets, int& size) {
-    std::ifstream inStream(fileName);
-    char ch{};
-    int lineC = 0;
-    int num = 0;
-    char nameP[buffSize];
-    double dP;
-    bool lP;
-    int sateliteP;
-    int c = 0;
-    while (inStream.get(ch)) {
-        if (ch == '\n') {
-            lineC++;
+void Planet::ReadDB(char* fileName, Planet*& planets, int& size) {
+    if (planets) {
+        std::ifstream inStream(fileName);
+        char ch{};
+        int lineC = 0;
+        int num = 0;
+
+        int c = 0;
+        while (inStream.get(ch)) {
+            if (ch == '\n') {
+                lineC++;
+            }
         }
-    }
 
-    inStream.close();
-    inStream.open(fileName);
-
-    while (num < 2) {
-        if (c % q == 0) {
-            if (c != 0) {
-                if (planets == nullptr) {
-                    std::cerr << "Ошибка: указатель planets == nullptr перед Resize!" << std::endl;
-                }
+        inStream.close();
+        inStream.open(fileName);
+        for (int i = 0; i < lineC; ++i) {
+            if (i != 0) {
                 Resize(planets, size);
             }
-            inStream >> nameP;
-            ++c;
-            std::cout << nameP << std::endl;
-            planets[size - 1].SetN(nameP);
-            std::cout << size << planets[size - 1].GetN() << std::endl;
+            inStream >> planets[i];
         }
-        if (c % q == 1) {
-            inStream >> dP;
-            ++c;
-            std::cout << dP << std::endl;
-            planets[size - 1].SetD(dP);
-        }
-        if (c % q == 2) {
-            inStream >> lP;
-            ++c;
-            std::cout << lP << std::endl;
-            planets[size - 1].SetL(lP);
-        }
-        if (c % q == 3) {
-            inStream >> sateliteP;
-            ++c;
-            std::cout << sateliteP << std::endl;
-            std::cout << "NUM" << num;
-            planets[size - 1].SetSN(sateliteP);
-            ++num;
-        }
+
+        inStream.close();
     }
-    inStream.close();
 }
 }  // namespace PlanetZone
