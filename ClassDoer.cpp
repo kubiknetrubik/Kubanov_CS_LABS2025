@@ -20,7 +20,8 @@ void ExecutePlanet() {
         std::cout << "4. Добавление нового объекта в БД\n";
         std::cout << "5. Удаление объекта из БД\n";
         std::cout << "6. Вывод БД на экран\n";
-        std::cout << "7. Выход\n";
+        std::cout << "7. Редактироватние\n";
+        std::cout << "8. Выход\n";
         std::cin >> task;
         switch (static_cast<Command>(task)) {
             case Command::Read: {
@@ -56,6 +57,13 @@ void ExecutePlanet() {
                 PlanetZone::Planet::Print(planets, size);
                 break;
             }
+            case Command::Edit:{
+                char ed[buffSize]{};
+                std::cout << "Введите название планеты для редактирования: " << std::endl;
+                std::cin >> ed;
+                PlanetZone::Planet::EditEl(planets, size, ed);
+                break;
+            }
             case Command::Exit: {
                 PlanetZone::Planet::DeleteDB(planets, size);
                 break;
@@ -73,14 +81,15 @@ void ExecuteShop() {
     int size = 1;
     ShopZone::Shop* shops = new ShopZone::Shop[size];
     while (static_cast<Command>(task) != Command::Exit) {
-        std::cout << "Выберите номер, интересующего вас задания, и введите его в консоль для переходаS\n";
+        std::cout << "Выберите номер, интересующего вас задания, и введите его в консоль для перехода\n";
         std::cout << "1. Чтение БД из файла\n";
         std::cout << "2. Запись БД в файл\n";
         std::cout << "3. Сортировка БД\n";
         std::cout << "4. Добавление нового объекта в БД\n";
         std::cout << "5. Удаление объекта из БД\n";
         std::cout << "6. Вывод БД на экран\n";
-        std::cout << "7. Выход\n";
+        std::cout << "7. Редактироватние\n";
+        std::cout << "8. Выход\n";
         std::cin >> task;
         switch (static_cast<Command>(task)) {
             case Command::Read: {
@@ -113,6 +122,13 @@ void ExecuteShop() {
             }
             case Command::Print: {
                 ShopZone::Shop::Print(shops, size);
+                break;
+            }
+            case Command::Edit:{
+                char ed[buffSize]{};
+                std::cout << "Введите название магазина для редактирования: " << std::endl;
+                std::cin >> ed;
+                ShopZone::Shop::EditEl(shops, size, ed);
                 break;
             }
             case Command::Exit: {

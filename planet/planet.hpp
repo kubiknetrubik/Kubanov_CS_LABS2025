@@ -27,7 +27,7 @@ class Planet {
     friend std::ofstream& operator<<(std::ofstream& out, Planet& el);
     friend std::ifstream& operator>>(std::ifstream& in, Planet& el);
     Planet& operator=(Planet& el);
-    friend bool operator==(Planet& el, Planet& el2);
+    friend bool operator==(Planet& el, char* nn);
     friend bool operator<(Planet& el, Planet& el2);
 
     static void DeleteDB(Planet*& planets, int& size);
@@ -38,7 +38,8 @@ class Planet {
     static void WriteDB(char* fileName, Planet*& planets, int& size);
     static void AddEl(Planet*& planets, int& size);
     static void SortDB(Planet*& planets, int& size);
-    static void DeleteEl(Planet*& planets, int& size, const char* remove);
+    static void DeleteEl(Planet*& planets, int& size, char* remove);
+    static void EditEl(Planet*& planets, int& size, char* ed);
 };
 
 }  // namespace PlanetZone

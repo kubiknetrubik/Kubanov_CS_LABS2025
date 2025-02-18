@@ -71,8 +71,8 @@ std::ifstream& operator>>(std::ifstream& in, Shop& el) {
 
     return in;
 }
-bool operator==(Shop& el, Shop& el2) {
-    if (!strcmp(el.GetN(), el2.GetN())) {
+bool operator==(Shop& el, char* nn) {
+    if (!strcmp(el.GetN(), nn)) {
         return true;
     }
     return false;
@@ -104,10 +104,25 @@ void Shop::SortDB(Shop*& shops, int& size) {
         }
     }
 }
-void Shop::DeleteEl(Shop*& shops, int& size, const char* remove) {
+void Shop::EditEl(Shop*& shops, int& size,  char* ed){
+    if(shops){
+        for (int i = 0; i < size; ++i) {
+            if(shops[i]==ed){
+                double newA{};
+                std::cout<<"Введите новую площадь магазина:"<<std::endl;
+                std::cin>>newA;
+                shops[i].SetA(newA);
+                break;
+            }
+        }
+
+    }
+
+}
+void Shop::DeleteEl(Shop*& shops, int& size,  char* remove) {
     if (shops) {
         for (int i = 0; i < size; ++i) {
-            if (!strcmp(shops[i].GetN(), remove)) {
+            if (shops[i]== remove) {
                 shops[i].DeleteN();
                 Shop* newShops = new Shop[size - 1]();
 

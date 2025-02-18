@@ -17,7 +17,7 @@ class Shop {
     char* GetN();
     double GetA();
     double GetI();
-    
+
     int GetBranch();
     void SetN(char* n);
     void SetA(double d);
@@ -27,7 +27,7 @@ class Shop {
     friend std::ofstream& operator<<(std::ofstream& out, Shop& el);
     friend std::ifstream& operator>>(std::ifstream& in, Shop& el);
     Shop& operator=(Shop& el);
-    friend bool operator==(Shop& el, Shop& el2);
+    friend bool operator==(Shop& el, char* nn);
     friend bool operator<(Shop& el, Shop& el2);
 
     static void DeleteDB(Shop*& shops, int& size);
@@ -38,7 +38,8 @@ class Shop {
     static void WriteDB(char* fileName, Shop*& shops, int& size);
     static void AddEl(Shop*& shops, int& size);
     static void SortDB(Shop*& shops, int& size);
-    static void DeleteEl(Shop*& shops, int& size, const char* remove);
+    static void DeleteEl(Shop*& shops, int& size, char* remove);
+    static void EditEl(Shop*& planets, int& size, char* ed);
 };
 
 }  // namespace ShopZone

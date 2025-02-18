@@ -48,6 +48,7 @@ int Planet::GetSN() {
 void Planet::SetN(char* n) {
     if (name) {
         delete[] name;
+        name = nullptr;
     }
     name = new char[strlen(n) + 1];
     strcpy(name, n);
@@ -79,8 +80,8 @@ std::ifstream& operator>>(std::ifstream& in, Planet& el) {
 
     return in;
 }
-bool operator==(Planet& el, Planet& el2) {
-    if (el.GetD() == el2.GetD()) {
+bool operator==(Planet& el, char* nn) {
+    if (!strcmp(el.GetN(),nn)) {
         return true;
     }
     return false;
@@ -112,10 +113,25 @@ void Planet::SortDB(Planet*& planets, int& size) {
         }
     }
 }
-void Planet::DeleteEl(Planet*& planets, int& size, const char* remove) {
+void Planet::EditEl(Planet*& planets, int& size,  char* ed){
+    if(planets){
+        for (int i = 0; i < size; ++i) {
+            if(planets[i]==ed){
+                char nameNew[buffSize]{};
+                std::cout<<"Введите новое название планеты:"<<std::endl;
+                std::cin>>nameNew;
+                planets[i].SetN(nameNew);
+                break;
+            }
+        }
+
+    }
+
+}
+void Planet::DeleteEl(Planet*& planets, int& size, char* remove) {
     if (planets) {
         for (int i = 0; i < size; ++i) {
-            if (!strcmp(planets[i].GetN(), remove)) {
+            if (planets[i]==remove) {
                 planets[i].DeleteN();
                 Planet* newPlanets = new Planet[size - 1]();
 

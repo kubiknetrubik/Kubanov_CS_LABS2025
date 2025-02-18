@@ -7,7 +7,8 @@ enum class Command {
     Add = 4,
     Delete = 5,
     Print = 6,
-    Exit = 7
+    Exit = 8,
+    Edit=7
 };
 enum class Type {
     p = 0,
