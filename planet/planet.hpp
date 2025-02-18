@@ -8,8 +8,6 @@ class Planet {
     double diametr;
     bool life;
     int sateliteNumber;
-    static int total;
-    int id;
 
  public:
     Planet();

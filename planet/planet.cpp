@@ -8,15 +8,13 @@ const int q = 4;
 
 }  // namespace
 namespace PlanetZone {
-int Planet::total = 0;
+
 Planet::Planet() {
     name = nullptr;
     diametr = 0;
     life = true;
     sateliteNumber = 0;
-    total++;
-    id = total;
-    std::cout << "Создание ID " << id << std::endl;
+
 }
 Planet::Planet(const char* n, double d, bool l, int sn) {
     diametr = d;
@@ -26,8 +24,8 @@ Planet::Planet(const char* n, double d, bool l, int sn) {
     strcpy(name, n);
 }
 Planet::~Planet() {
-    total--;
-    std::cout << "Удаление ID " << id << std::endl;
+    delete[] name;
+    name = nullptr;
 }
 
 void Planet::DeleteN() {
