@@ -17,6 +17,7 @@ class Shop {
     char* GetN();
     double GetA();
     double GetI();
+    
     int GetBranch();
     void SetN(char* n);
     void SetA(double d);

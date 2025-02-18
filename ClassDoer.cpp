@@ -13,7 +13,7 @@ void ExecutePlanet() {
     int size = 1;
     PlanetZone::Planet* planets = new PlanetZone::Planet[size];
     while (static_cast<Command>(task) != Command::Exit) {
-        std::cout << "Выберите номер, интересующего вас задания, и введите его в консоль для перехода\n";
+        std::cout << "Выберите номер, интересующего вас задания, и введите его в консоль для переходаP\n";
         std::cout << "1. Чтение БД из файла\n";
         std::cout << "2. Запись БД в файл\n";
         std::cout << "3. Сортировка БД\n";
@@ -70,10 +70,10 @@ void ExecutePlanet() {
 void ExecuteShop() {
     int task = 0;
     char* shopFile = "ShopsBase.txt";
-    int size2 = 1;
-    ShopZone::Shop* shops = new ShopZone::Shop[size2];
+    int size = 1;
+    ShopZone::Shop* shops = new ShopZone::Shop[size];
     while (static_cast<Command>(task) != Command::Exit) {
-        std::cout << "Выберите номер, интересующего вас задания, и введите его в консоль для перехода\n";
+        std::cout << "Выберите номер, интересующего вас задания, и введите его в консоль для переходаS\n";
         std::cout << "1. Чтение БД из файла\n";
         std::cout << "2. Запись БД в файл\n";
         std::cout << "3. Сортировка БД\n";
@@ -84,22 +84,22 @@ void ExecuteShop() {
         std::cin >> task;
         switch (static_cast<Command>(task)) {
             case Command::Read: {
-                ShopZone::Shop::ReadDB(shopFile, shops, size2);
+                ShopZone::Shop::ReadDB(shopFile, shops, size);
 
                 break;
             }
             case Command::Write: {
-                ShopZone::Shop::WriteDB(shopFile, shops, size2);
+                ShopZone::Shop::WriteDB(shopFile, shops, size);
 
                 break;
             }
             case Command::Sort: {
-                ShopZone::Shop::SortDB(shops, size2);
+                ShopZone::Shop::SortDB(shops, size);
 
                 break;
             }
             case Command::Add: {
-                ShopZone::Shop::AddEl(shops, size2);
+                ShopZone::Shop::AddEl(shops, size);
 
                 break;
             }
@@ -107,16 +107,16 @@ void ExecuteShop() {
                 char remove[buffSize]{};
                 std::cout << "Введите название планеты для удаления: " << std::endl;
                 std::cin >> remove;
-                ShopZone::Shop::DeleteEl(shops, size2, remove);
+                ShopZone::Shop::DeleteEl(shops, size, remove);
 
                 break;
             }
             case Command::Print: {
-                ShopZone::Shop::Print(shops, size2);
+                ShopZone::Shop::Print(shops, size);
                 break;
             }
             case Command::Exit: {
-                ShopZone::Shop::DeleteDB(shops, size2);
+                ShopZone::Shop::DeleteDB(shops, size);
                 break;
             }
             default: {
@@ -134,9 +134,11 @@ void ExecuteMenu() {
         switch (static_cast<Type>(checker)) {
             case Type::p: {
                 ExecutePlanet();
+                break;
             }
             case Type::s: {
                 ExecuteShop();
+                break;
             }
             case Type::e: {
                 break;
