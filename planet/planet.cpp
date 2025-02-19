@@ -122,6 +122,8 @@ void Planet::EditEl(Planet*& planets, int& size,  char* ed){
                 std::cin>>nameNew;
                 planets[i].SetN(nameNew);
                 break;
+            }else if (i == size - 1) {
+                std::cout << "No element" << std::endl;
             }
         }
 
@@ -194,7 +196,7 @@ void Planet::DeleteDB(Planet*& planets, int& size) {
 void Planet::Print(Planet*& planets, int size) {
     if (planets) {
         for (int i = 0; i < size; ++i) {
-            std::cout << planets[i].GetN() << " " << planets[i].GetD() << " " << planets[i].GetL() << " " << planets[i].GetSN() << std::endl;
+            std::cout << planets[i].GetN() << " " <<std::fixed<< planets[i].GetD() << " " << planets[i].GetL() << " " << planets[i].GetSN() << std::endl;
         }
     }
 }

@@ -13,14 +13,14 @@ void ExecutePlanet() {
     int size = 1;
     PlanetZone::Planet* planets = new PlanetZone::Planet[size];
     while (static_cast<Command>(task) != Command::Exit) {
-        std::cout << "Выберите номер, интересующего вас задания, и введите его в консоль для переходаP\n";
+        std::cout << "Выберите номер, интересующего вас задания, и введите его в консоль для перехода\n";
         std::cout << "1. Чтение БД из файла\n";
         std::cout << "2. Запись БД в файл\n";
         std::cout << "3. Сортировка БД\n";
         std::cout << "4. Добавление нового объекта в БД\n";
         std::cout << "5. Удаление объекта из БД\n";
         std::cout << "6. Вывод БД на экран\n";
-        std::cout << "7. Редактироватние\n";
+        std::cout << "7. Редактирование название заданной планеты\n";
         std::cout << "8. Выход\n";
         std::cin >> task;
         switch (static_cast<Command>(task)) {
@@ -88,7 +88,7 @@ void ExecuteShop() {
         std::cout << "4. Добавление нового объекта в БД\n";
         std::cout << "5. Удаление объекта из БД\n";
         std::cout << "6. Вывод БД на экран\n";
-        std::cout << "7. Редактироватние\n";
+        std::cout << "7. Редактирование плоащди заданного магазина\n";
         std::cout << "8. Выход\n";
         std::cin >> task;
         switch (static_cast<Command>(task)) {
