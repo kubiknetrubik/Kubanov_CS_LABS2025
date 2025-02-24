@@ -187,7 +187,7 @@ void Shop::DeleteDB(Shop*& shops, int& size) {
 void Shop::Print(Shop*& shops, int size) {
     if (shops) {
         for (int i = 0; i < size; ++i) {
-            std::cout << shops[i].GetN() << " " << std::fixed<<shops[i].GetA() << " " << shops[i].GetI() << " " << shops[i].GetBranch() << std::endl;
+            std::cout << shops[i].GetN() << " "<<shops[i].GetA() << " " << shops[i].GetI() << " " << shops[i].GetBranch() << std::endl;
         }
     }
 }

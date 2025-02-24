@@ -40,7 +40,7 @@ void ExecutePlanet() {
                 break;
             }
             case Command::Add: {
-                std::cout << size;
+                
                 PlanetZone::Planet::AddEl(planets, size);
 
                 break;
