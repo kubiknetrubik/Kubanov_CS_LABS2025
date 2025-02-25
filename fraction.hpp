@@ -27,7 +27,7 @@ class Fraction{
     public:
         Fraction();
         Fraction(int num, int den);
-        Fraction(char* stroke);
+        Fraction(const char* stroke);
         Fraction(double db);
         Fraction(Fraction& el);
 
@@ -36,8 +36,8 @@ class Fraction{
         Fraction operator+(Fraction& other);
         Fraction operator+(int other);
         Fraction operator+(double other);
-        friend Fraction operator+(double value,Fraction& frac);
-        friend Fraction operator+(int value,Fraction& frac);
+        friend Fraction operator+(double value,Fraction& other);
+        friend Fraction operator+(int value,Fraction& other);
 
         Fraction& operator+=(Fraction other);
         Fraction& operator+=(int v);

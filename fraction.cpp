@@ -8,9 +8,8 @@ Fraction::Fraction() {
     denominator = 1;
 }
 Fraction::Fraction(int num, int den) {
-    if (den == 0) {
-        std::cout << "Invalid denumerator";
-        return;
+    if (den <= 0) {
+        throw "INVALID";
     }
     numerator = num;
     denominator = den;
@@ -41,29 +40,28 @@ void Fraction::GetStr(const char* stroke) {
             den = std::atoi(fractionPart + 1);
             numerator = num;
             if (den <= 0) {
-                std::cout << "Invalid denominatorr";
-                return;
+                throw "INVALID";
             }
             denominator = den;
         } else {
             integer = std::atoi(token);
+            if(integer==0){
+                throw "INVALID";
+            }
             token = std::strtok(nullptr, "/");
             if (token) {
                 num = std::atoi(token);
-                if (num < 0) {
-                    std::cout << "Invalid numerator";
-                    return;
+                if (num <= 0) {
+                    throw "INVALID";
                 }
                 token = std::strtok(nullptr, "\0");
                 if (token) {
                     den = std::atoi(token);
                     if (den <= 0) {
-                        std::cout << "Invalid denominatorr";
-                        return;
+                        throw "INVALID";
                     }
                 } else {
-                    std::cout << "Invalid denominator";
-                    return;
+                    throw "INVALID";
                 }
                 numerator = integer * den + (integer < 0 ? -num : num);
                 denominator = den;
@@ -74,13 +72,12 @@ void Fraction::GetStr(const char* stroke) {
             }
         }
     } else {
-        std::cout << "Invalid integer";
-        return;
+        throw "INVALID";
     }
     simplify();
 }
 
-Fraction::Fraction(char* stroke) {
+Fraction::Fraction(const char* stroke) {
     GetStr(stroke);
 }
 
@@ -96,14 +93,14 @@ Fraction Fraction::operator+(double other) {
     Fraction temp(other);
     return *this+temp;
 }
-Fraction operator+(double value,Fraction& frac){
+Fraction operator+(double value,Fraction& other){
     Fraction temp(value);
-    return temp+frac;
+    return temp+other;
 
 }
-Fraction operator+(int value, Fraction& frac){
+Fraction operator+(int value, Fraction& other){
     Fraction temp(value,1);
-    return temp+frac;
+    return temp+other;
 
 }
 
