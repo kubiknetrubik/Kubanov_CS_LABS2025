@@ -40,14 +40,24 @@ class MyStack {
     bool pop(void);     // удалить узел из вершины стека
     INF top_inf(void);  // считать информацию из вершины стека
     MyStack(const MyStack& other);
-    MyStack& operator=(const MyStack& other);
+    MyStack<INF>& operator=(const MyStack<INF>& other);
+
 };
+template<class INF>
+std::ostream& operator<<(std::ostream& out, MyStack<INF>& el){
+    while (!el.empty()) {
+        out <<"*"<< el.top_inf();
+        el.pop();
+    }
+    return out;
+
+}
 template<class DATA>
 void Multipliers(int n, MyStack<DATA>& stack) {
     for (int i = 2; i <= n; ++i) {
         while (n % i == 0) {
             n /= i;
-            
+
             stack.push(i);
         }
     }
@@ -62,18 +72,15 @@ void Reverse( MyStack<DATA>& stack) {
     }
     stack = temp;
 }
-template<class DATA>
-void Print(MyStack<DATA>& stack, int n, bool reverse) {
+template<class INF>
+void Print(MyStack<INF>& stack, int n, bool reverse) {
     std::cout << n << "=";
     if (reverse) {
         Reverse(stack);
     }
     std::cout <<stack.top_inf();
     stack.pop();
-    while (!stack.empty()) {
-        std::cout <<"*"<< stack.top_inf();
-        stack.pop();
-    }
+    std::cout<<stack;
 
     std::cout << '\n';
 }

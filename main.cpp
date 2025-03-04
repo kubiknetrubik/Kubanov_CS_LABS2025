@@ -3,6 +3,25 @@
 int main(int, char**) {
     try {
         int N{};
+        MyStack<char> lol;
+        lol.push('a');
+        lol.push('b');
+        lol.push('c');
+        MyStack<char> lol1 = lol;
+        MyStack<char> lol2;
+        lol2.push('f');
+        std::cout<<"lol2 based "<<lol2<<std::endl;
+        std::cout<<"lol" << lol<<std::endl;
+        lol2=lol1;
+        std::cout<<"lol1 happened "<<lol1<<std::endl;
+
+
+        std::cout<<"lol2 = "<<lol2<<std::endl;
+
+
+
+
+
         std::cout<<"Введите целое число N:"<<std::endl;
         std::cin>>N;
         if (N <= 0) {
