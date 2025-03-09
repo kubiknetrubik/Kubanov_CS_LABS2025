@@ -5,6 +5,8 @@
 #define MyStack_hpp  // модуль подключен
 
 // Шаблонный класс ListNode (узел односвязного списка)
+template<class INF>
+class MyStack;
 template<class INF, class FRIEND>
 class ListNode  // узел списка
 {
@@ -24,15 +26,23 @@ class ListNode  // узел списка
         return *this;
     }
     friend FRIEND;
+    template<class T>
+    friend std::ostream& operator<<(std::ostream& out, const MyStack<T>& el);
 };
 
 // Шаблонный класс MyStack на основе односвязного списка.
+
+
 template<class INF>
+std::ostream& operator<<(std::ostream& out, const MyStack<INF>& el);
+template<class INF>
+
 class MyStack {
     typedef class ListNode<INF, MyStack<INF>> Node;
     Node* top;
 
  public:
+
     MyStack(void);      // конструктор
     ~MyStack(void);     // освободить динамическую память
     bool empty(void);   // стек пустой?
@@ -42,15 +52,22 @@ class MyStack {
     MyStack(const MyStack& other);
     MyStack<INF>& operator=(const MyStack<INF>& other);
 
+
+
+    friend std::ostream& operator<< <>(std::ostream& out, const MyStack& el);
 };
 template<class INF>
-std::ostream& operator<<(std::ostream& out, MyStack<INF>& el){
-    while (!el.empty()) {
-        out <<"*"<< el.top_inf();
-        el.pop();
-    }
-    return out;
+std::ostream& operator<<(std::ostream& out, const MyStack<INF>& el) {
 
+    typename MyStack<INF>::Node* p = el.top;
+    out << p->d;
+    p = p->next;
+    while (p) {
+        out << "*" << p->d;
+        p = p->next;
+    }
+
+    return out;
 }
 template<class DATA>
 void Multipliers(int n, MyStack<DATA>& stack) {
@@ -63,7 +80,7 @@ void Multipliers(int n, MyStack<DATA>& stack) {
     }
 }
 template<class DATA>
-void Reverse( MyStack<DATA>& stack) {
+void Reverse(MyStack<DATA>& stack) {
     MyStack<DATA> temp;
 
     while (!stack.empty()) {
@@ -73,15 +90,9 @@ void Reverse( MyStack<DATA>& stack) {
     stack = temp;
 }
 template<class INF>
-void Print(MyStack<INF>& stack, int n, bool reverse) {
+void Print(const MyStack<INF>& stack, int n) {
     std::cout << n << "=";
-    if (reverse) {
-        Reverse(stack);
-    }
-    std::cout <<stack.top_inf();
-    stack.pop();
-    std::cout<<stack;
-
+    std::cout << stack;
     std::cout << '\n';
 }
 
@@ -118,8 +129,9 @@ MyStack<INF>::MyStack(const MyStack& other) {
 }
 template<class INF>
 MyStack<INF>& MyStack<INF>::operator=(const MyStack& other) {
-    if (this == &other)
+    if (this == &other){
         return *this;
+    }
     while (!empty()) {
         pop();
     }

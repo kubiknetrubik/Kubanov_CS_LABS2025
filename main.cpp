@@ -3,7 +3,7 @@
 int main(int, char**) {
     try {
         int N{};
-        MyStack<char> lol;
+        /* MyStack<char> lol;
         lol.push('a');
         lol.push('b');
         lol.push('c');
@@ -16,7 +16,7 @@ int main(int, char**) {
         std::cout<<"lol1 happened "<<lol1<<std::endl;
 
 
-        std::cout<<"lol2 = "<<lol2<<std::endl;
+        std::cout<<"lol2 = "<<lol2<<std::endl; */
 
 
 
@@ -30,8 +30,9 @@ int main(int, char**) {
         MyStack<int> stack;
         Multipliers(N,stack);
         MyStack<int> stack2=stack;
-        Print(stack,N,false);
-        Print(stack2,N,true);
+        Reverse(stack2);
+        Print(stack,N);
+        Print(stack2,N);
 
 
     } catch (std::runtime_error& e) {
