@@ -4,7 +4,7 @@
 #include <iostream>
 #include "myvector.h"
 
-template<class T>
+template<class T=const char*>
 class MySet : public MyVector<T> {
  public:
     MySet(T el = NULL) : MyVector<T>(el) {}

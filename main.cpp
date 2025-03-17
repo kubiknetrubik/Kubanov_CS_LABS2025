@@ -21,9 +21,8 @@ int main() {
     for (int i = 0; i < MAX_SIZE; i++)
         v1.delete_element(0);
     std::cout << "Вектор v1: " << v1 << std::endl;
-    MySet s("Yes");
-    MySet s1("Привет!");
-
+    MySet s("Yes"), s1, s2;
+    s.add_element("Привет!");
     s.add_element("No");
     char *str = "Hello!";
     s.add_element(str);
@@ -32,7 +31,7 @@ int main() {
     s1.add_element("No");
     s1.add_element("Привет!");
     std::cout << "Множество s1: " << s1 << std::endl;
-    MySet s2 = s1 - s;
+    s2 = s1 - s;
     std::cout << "Множество s2=s1-s: " << s2 << std::endl;
     std::cout << "Множество s1: " << s1 << std::endl;
     std::cout << "Множество s: " << s << std::endl;
@@ -62,6 +61,7 @@ int main() {
         std::cout << "Множество s1=s3\n";
     else
         std::cout << "Множество s1!=s3\n";
+    
     MySet kek("pop");
     kek.add_element("lol");
     kek.add_element("lol");
