@@ -1,43 +1,71 @@
-#include "MyStack/MyStack.hpp"
+#include <iostream>
+#include "containers/myvector.h"
+#include "containers/myset.h"
 
-int main(int, char**) {
-    try {
-        int N{};
-        /* MyStack<char> lol;
-        lol.push('a');
-        lol.push('b');
-        lol.push('c');
-        MyStack<char> lol1 = lol;
-        MyStack<char> lol2;
-        lol2.push('f');
-        std::cout<<"lol2 based "<<lol2<<std::endl;
-        std::cout<<"lol" << lol<<std::endl;
-        lol2=lol1;
-        std::cout<<"lol1 happened "<<lol1<<std::endl;
+int main() {
+    setlocale(LC_ALL, "Russian");
 
+    MyVector v("Hello!");
+    v.add_element("Привет!");
+    v.add_element("Привет!");
+    v.add_element("Привет!");
+    v.add_element("Привет!");
+    v.add_element("Привет!");
+    std::cout << "Вектор v: " << v << std::endl;
+    v.add_element("Привет!");
+    v.add_element("Привет!");
+    v.add_element("Привет!");
+    std::cout << "Вектор v: " << v << std::endl;
+    MyVector v1 = v;
+    std::cout << "Вектор v1: " << v1 << std::endl;
+    for (int i = 0; i < MAX_SIZE; i++)
+        v1.delete_element(0);
+    std::cout << "Вектор v1: " << v1 << std::endl;
+    MySet s("Yes");
+    MySet s1("Привет!");
 
-        std::cout<<"lol2 = "<<lol2<<std::endl; */
-
-
-
-
-
-        std::cout<<"Введите целое число N:"<<std::endl;
-        std::cin>>N;
-        if (N <= 0) {
-            throw std::runtime_error("Число N не валидно.");
-        }
-        MyStack<int> stack;
-        Multipliers(N,stack);
-        MyStack<int> stack2=stack;
-        Reverse(stack2);
-        Print(stack,N);
-        Print(stack2,N);
-
-
-    } catch (std::runtime_error& e) {
-        std::cerr << "Ошибка: " << e.what() << std::endl;
-    }
-
+    s.add_element("No");
+    char *str = "Hello!";
+    s.add_element(str);
+    std::cout << "Множество s: " << s << std::endl;
+    s1.add_element("Cat");
+    s1.add_element("No");
+    s1.add_element("Привет!");
+    std::cout << "Множество s1: " << s1 << std::endl;
+    MySet s2 = s1 - s;
+    std::cout << "Множество s2=s1-s: " << s2 << std::endl;
+    std::cout << "Множество s1: " << s1 << std::endl;
+    std::cout << "Множество s: " << s << std::endl;
+    s2 = s - s1;
+    std::cout << "Множество s2=s-s1: " << s2 << std::endl;
+    std::cout << "Множество s1: " << s1 << std::endl;
+    std::cout << "Множество s: " << s << std::endl;
+    s2 = s1 + s;
+    std::cout << "Множество s2=s1+s: " << s2 << std::endl;
+    std::cout << "Множество s1: " << s1 << std::endl;
+    std::cout << "Множество s: " << s << std::endl;
+    s2 = s1 * s;
+    std::cout << "Множество s2=s1*s: " << s2 << std::endl;
+    std::cout << "Множество s1: " << s1 << std::endl;
+    std::cout << "Множество s: " << s << std::endl;
+    MySet s3 = s2;
+    std::cout << "Множество s3=s2: " << s3 << std::endl;
+    if (s3 == s2)
+        std::cout << "Множество s3=s2\n";
+    else
+        std::cout << "Множество s3!=s2\n";
+    if (s3 == s1)
+        std::cout << "Множество s3=s1\n";
+    else
+        std::cout << "Множество s3!=s1\n";
+    if (s1 == s3)
+        std::cout << "Множество s1=s3\n";
+    else
+        std::cout << "Множество s1!=s3\n";
+    MySet kek("pop");
+    kek.add_element("lol");
+    kek.add_element("lol");
+    kek.delete_element("lol");
+    std::cout << "Вектор kek: " << kek<< std::endl;
     return 0;
 }
