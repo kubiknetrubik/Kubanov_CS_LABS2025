@@ -24,12 +24,7 @@ class MyVector {
     }
 
  public:
-    MyVector(T el = NULL, int maxsize = MAX_SIZE) : max_size(maxsize), size(0) {
-        pdata = new T[max_size];
-        if (el) {
-            add_element(el);
-        }
-    };
+    MyVector(T el = NULL, int maxsize = MAX_SIZE);
 
     MyVector(const MyVector& v);
     ~MyVector();
@@ -41,14 +36,24 @@ class MyVector {
 
     MyVector<T>& operator=(const MyVector<T>& v);
 
-    friend std::ostream& operator<<(std::ostream& out, MyVector<T>& v) {
-        for (int i = 0; i < v.size; ++i) {
-            out << v[i] << ' ';
-        }
-        out << '\n';
-        return out;
-    }
+    template <class F>
+    friend std::ostream& operator<<(std::ostream& out, MyVector<F>& v);
 };
+template<class T>
+MyVector<T>::MyVector(T el , int maxsize) : max_size(maxsize), size(0) {
+    pdata = new T[max_size];
+    if (el) {
+        add_element(el);
+    }
+}
+template <class F>
+std::ostream& operator<<(std::ostream& out, MyVector<F>& v) {
+    for (int i = 0; i < v.size; ++i) {
+        out << v[i] << ' ';
+    }
+    out << '\n';
+    return out;
+}
 
 template<class T>
 MyVector<T>::MyVector(const MyVector& v) {
@@ -116,7 +121,7 @@ void MyVector<const char*>::sort() {
     if (!pdata) {
         return;
     }
-    
+
 
     for (int i = 0; i < size; ++i) {
         for (int j = 0; j < size - i - 1; ++j) {

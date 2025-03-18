@@ -8,98 +8,153 @@ template<class T=const char*>
 class MySet : public MyVector<T> {
  public:
     MySet(T el = NULL) : MyVector<T>(el) {}
+    template <class F>
+    friend bool operator==(const MySet<F>& a,const MySet<F>& b);
+    template <class F>
+    friend MySet<F>& operator+=( MySet<F>& a,const MySet<F>& b);
+    template <class F>
+    friend MySet<F>& operator-=( MySet<F>& a,const MySet<F>& b);
+    template <class F>
+    friend MySet<F>& operator*=( MySet<F>& a,const MySet<F>& b);
+    void add_element(T el);
+    void delete_element(T el);
 
-    bool operator==(const MySet<T>& s) const {
-        if (this->size != s.size) {
-            return false;
+    bool is_element(T el) const;
+    template <class F>
+    friend std::ostream& operator<<(std::ostream& out, const MySet<F>& s);
+    template <class F>
+    friend MySet<F> operator+(const MySet<F>& s1, const MySet<F>& s2);
+    template <class F>
+    friend MySet<F> operator-(const MySet<F>& s1, const MySet<F>& s2);
+    template <class F>
+    friend MySet<F> operator*(const MySet<F>& s1, const MySet<F>& s2);
+};
+template <class F>
+std::ostream& operator<<(std::ostream& out, const MySet<F>& s) {
+    out << "{";
+    for (int i = 0; i < s.size; ++i) {
+        if (i > 0) {
+            out << ", ";
         }
-        for (int i = 0; i < this->size; ++i) {
-            if (!s.is_element((*this)[i])) {
-                return false;
-            }
-        }
-        return true;
+        out << s[i];
     }
-
-    MySet<T>& operator+=(const MySet<T>& s) {
-        for (int i = 0; i < s.size; ++i) {
-            this->add_element(s[i]);
-        }
-        return *this;
-    }
-
-    MySet<T>& operator-=(const MySet<T>& s) {
-
-        for (int i = 0; i < this->size; ++i) {
-
-            if (s.is_element(((*this)[i]))) {
-                this->delete_element((*this)[i--]);
-            }
-        }
-        return *this;
-    }
-
-    MySet<T>& operator*=(const MySet<T>& s) {
-        for (int i = 0; i < this->size; ++i) {
-            if (!s.is_element((*this)[i])) {
-                this->delete_element((*this)[i]);
-            }
-        }
-        return *this;
-    }
-
-    void add_element(T el) {
-        if (!this->is_element(el)) {
-            MyVector<T>::add_element(el);
-            this->sort();
-        }
-    }
-
-    void delete_element(T el) {
-        int index = this->find(el);
-        if (index != -1) {
-            MyVector<T>::delete_element(index);
-        }
-    }
-
-    bool is_element(T el) const {
-        for (int i = 0; i < this->size; ++i) {
-            if ((*this)[i] == el) {
-                return true;
-            }
-        }
+    out << "}";
+    return out;
+}
+template <class F>
+bool operator==(const MySet<F>& a,const MySet<F>& b){
+    if (a.size != b.size) {
         return false;
     }
-
-    friend std::ostream& operator<<(std::ostream& out, const MySet<T>& s) {
-        out << "{";
-        for (int i = 0; i < s.size; ++i) {
-            if (i > 0) {
-                out << ", ";
-            }
-            out << s[i];
+    for (int i = 0; i < a.size; ++i) {
+        if (!b.is_element(a[i])) {
+            return false;
         }
-        out << "}";
-        return out;
+    }
+    return true;
+}
+template <class F>
+MySet<F>& operator+=(MySet<F>& a,const MySet<F>& b) {
+    for (int i = 0; i < b.size; ++i) {
+        a.add_element(b[i]);
+    }
+    return a;
+}
+template <class F>
+MySet<F>& operator-=( MySet<F>& a,const MySet<F>& b) {
+
+    for (int i = 0; i < a.size; ++i) {
+
+        if (b.is_element((a[i]))) {
+            a.delete_element(a[i--]);
+        }
+    }
+    return a;
+}
+template <class F>
+MySet<F>& operator*=( MySet<F>& a,const MySet<F>& b) {
+    for (int i = 0; i < a.size; ++i) {
+        if (!b.is_element(a[i])) {
+            a.delete_element(a[i]);
+        }
+    }
+    return a;
+}
+template <class T>
+void MySet<T>::add_element(T el) {
+    if (!this->is_element(el)) {
+        MyVector<T>::add_element(el);
+        this->sort();
+    }
+}
+
+template <class T>
+void MySet<T>::delete_element(T el) {
+    int index = this->find(el);
+    if (index != -1) {
+        MyVector<T>::delete_element(index);
+    }
+}
+
+template <class T>
+bool MySet<T>::is_element(T el)const  {
+
+    int left = 0;
+    int right = this->size - 1;
+
+    while (left <= right) {
+        int middle = (left + right) / 2;
+        if ((*this)[middle] > el) {
+            right = middle - 1;
+        } else {
+            left = middle + 1;
+        }
+
+        if ((*this)[middle] == el) {
+            return true;
+        }
     }
 
-    friend MySet<T> operator+(const MySet<T>& s1, const MySet<T>& s2) {
-        MySet<T> result = s1;
-        result += s2;
-        return result;
+    return false;
+}
+template <>
+bool MySet<const char*>::is_element(const char* el) const{
+    int left = 0;
+    int right = this->size - 1;
+
+    while (left <= right) {
+        int middle = (left + right) / 2;
+        if (std::strcmp((*this)[middle],  el) > 0) {
+            right = middle - 1;
+        }
+         else {
+            left = middle + 1;
+        }
+
+        if (std::strcmp((*this)[middle],  el) == 0) {
+            return true;
+        }
     }
 
-    friend MySet<T> operator-(const MySet<T>& s1, const MySet<T>& s2) {
-        MySet<T> result = s1;
-        result -= s2;
-        return result;
-    }
-
-    friend MySet<T> operator*(const MySet<T>& s1, const MySet<T>& s2) {
-        MySet<T> result = s1;
-        result *= s2;
-        return result;
-    }
-};
+    return false;
+}
+template<class F>
+MySet<F> operator+(const MySet<F>& s1, const MySet<F>& s2) {
+    MySet<F> result = s1;
+    result += s2;
+    return result;
+}
+template<class F>
+MySet<F> operator-(const MySet<F>& s1, const MySet<F>& s2) {
+    MySet<F> result = s1;
+    result -= s2;
+    return result;
+}
+template<class F>
+MySet<F> operator*(const MySet<F>& s1, const MySet<F>& s2) {
+    MySet<F> result = s1;
+    result *= s2;
+    return result;
+}
 
 #endif  // INHERITANCE_MYSET_H
