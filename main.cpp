@@ -3,8 +3,8 @@
 #include "containers/myset.h"
 
 int main() {
-    setlocale(LC_ALL, "Russian");
 
+    setlocale(LC_ALL, "Russian");
     MyVector v("Hello!");
     v.add_element("Привет!");
     v.add_element("Привет!");
@@ -24,7 +24,7 @@ int main() {
     MySet s("Yes"), s1, s2;
     s.add_element("Привет!");
     s.add_element("No");
-    char *str = "Hello!";
+    const char* str = "Hello!";
     s.add_element(str);
     std::cout << "Множество s: " << s << std::endl;
     s1.add_element("Cat");
@@ -61,11 +61,7 @@ int main() {
         std::cout << "Множество s1=s3\n";
     else
         std::cout << "Множество s1!=s3\n";
-    
-    MySet kek("pop");
-    kek.add_element("lol");
-    kek.add_element("lol");
-    kek.delete_element("lol");
-    std::cout << "Вектор kek: " << kek<< std::endl;
     return 0;
+
+
 }

@@ -1,8 +1,8 @@
 #ifndef INHERITANCE_MYVECTOR_H
 #define INHERITANCE_MYVECTOR_H
 
-#include <iostream>
 #include <cstring>
+#include <iostream>
 
 const int MAX_SIZE = 5;
 
@@ -50,7 +50,7 @@ class MyVector {
     }
 };
 
-template <class T>
+template<class T>
 MyVector<T>::MyVector(const MyVector& v) {
     max_size = v.max_size;
     size = v.size;
@@ -60,79 +60,44 @@ MyVector<T>::MyVector(const MyVector& v) {
     }
 }
 
-template <class T>
+template<class T>
 MyVector<T>::~MyVector() {
     delete[] pdata;
 }
-template <>
-MyVector<char*>::~MyVector() {
-    for(int i=0;i<size;++i){
-        delete[] pdata[i];
-    }
-    delete[] pdata;
-}
 
-template <class T>
+template<class T>
 void MyVector<T>::add_element(T el) {
     if (size >= max_size) {
         resize();
     }
+
     pdata[size] = el;
     ++size;
 }
 
-template <>
-void MyVector<char*>::add_element(char* el) {
-    if (size >= max_size) {
-        resize();
-    }
-    pdata[size] = new char[strlen(el) + 1];
-    strcpy(pdata[size], el);
-    ++size;
-}
-
-template <class T>
+template<class T>
 bool MyVector<T>::delete_element(int i) {
     if (size == 0 || i < 0 || i >= size) {
         return false;
     }
-    for (int j = i; j < size; ++j) {
+    for (int j = i; j < size - 1; ++j) {
         pdata[j] = pdata[j + 1];
     }
     --size;
-    if(size<max_size/4){
-        max_size= max_size/2;
+    if (size < max_size / 4) {
+        max_size = max_size / 2;
     }
     return true;
 }
 
-template <>
-bool MyVector<char*>::delete_element(int i) {
-    if (size == 0 || i < 0 || i >= size) {
-        return false;
-    }
-    delete[] pdata[i];
-    for (int j = i; j < size; ++j) {
-        delete[] pdata[j];
-        pdata[j] =new char[strlen(pdata[j+1]) + 1];
-        strcpy(pdata[j], pdata[j+1]);
-    }
-
-    --size;
-    if(size<max_size/4){
-        max_size= max_size/2;
-    }
-    return true;
-}
-
-template <class T>
+template<class T>
 const T& MyVector<T>::operator[](int i) const {
     if (i < 0 || i >= size) {
-        throw std::invalid_argument("Индекс не валидный.");
+        throw std::invalid_argument("NONVALID");
     }
     return pdata[i];
 }
-template <class T>
+template<class T>
 void MyVector<T>::sort() {
     if (!pdata) {
         return;
@@ -142,60 +107,48 @@ void MyVector<T>::sort() {
         for (int j = 0; j < size - i - 1; ++j) {
             if (pdata[j] > pdata[j + 1]) {
                 std::swap(pdata[j], pdata[j + 1]);
-
             }
         }
     }
 }
-template <>
-void MyVector<char*>::sort() {
+template<>
+void MyVector<const char*>::sort() {
     if (!pdata) {
         return;
     }
+    
 
     for (int i = 0; i < size; ++i) {
         for (int j = 0; j < size - i - 1; ++j) {
-            if (strcmp(pdata[j + 1],pdata[j]) > 0) {
+            if (!(strcmp(pdata[j + 1], pdata[j]) > 0)) {
                 std::swap(pdata[j], pdata[j + 1]);
-
             }
         }
     }
 }
 
-template <class T>
+template<class T>
 int MyVector<T>::find(T el) {
-    int left = 0, right = size - 1;
-    while (left <= right) {
-        int mid = left + (right - left) / 2;
-        if (pdata[mid] == el)
-            return mid;
-        else if (pdata[mid] < el)
-            left = mid + 1;
-        else
-            right = mid - 1;
-    }
-    return -1;
-}
-
-template <>
-int MyVector<char*>::find(char* el) {
-    int left = 0, right = size - 1;
-    while (left <= right) {
-        int mid = left + (right - left) / 2;
-        if (!strcmp(pdata[mid],el)){
-            return mid;
-        }else if (strcmp(pdata[mid], el)>0){
-            left = mid + 1;
-        }else{
-            right = mid - 1;
+    for (int i = 0; i < this->size; ++i) {
+        if (pdata[i] == el) {
+            return i;
         }
     }
     return -1;
 }
 
+template<>
+int MyVector<const char*>::find(const char* el) {
+    for (int i = 0; i < this->size; ++i) {
+        if (!strcmp(pdata[i], el)) {
+            return i;
+        }
+    }
+    return -1;
 
-template <class T>
+}
+
+template<class T>
 MyVector<T>& MyVector<T>::operator=(const MyVector<T>& v) {
     delete[] pdata;
 
@@ -208,16 +161,4 @@ MyVector<T>& MyVector<T>::operator=(const MyVector<T>& v) {
     return *this;
 }
 
-template <>
-MyVector<char*>& MyVector<char*>::operator=(const MyVector<char*>& v) {
-    delete[] pdata;
-
-    this->max_size = v.max_size;
-    this->size = v.size;
-    this->pdata = new char*[max_size];
-    for (int i = 0; i < size; ++i) {
-        this->pdata[i] = v.pdata[i];
-    }
-    return *this;
-}
 #endif  // INHERITANCE_MYVECTOR_H

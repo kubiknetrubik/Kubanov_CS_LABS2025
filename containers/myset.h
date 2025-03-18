@@ -14,7 +14,7 @@ class MySet : public MyVector<T> {
             return false;
         }
         for (int i = 0; i < this->size; ++i) {
-            if (!s.is_element(this->operator[](i))) {
+            if (!s.is_element((*this)[i])) {
                 return false;
             }
         }
@@ -23,15 +23,17 @@ class MySet : public MyVector<T> {
 
     MySet<T>& operator+=(const MySet<T>& s) {
         for (int i = 0; i < s.size; ++i) {
-            this->add_element(s.operator[](i));
+            this->add_element(s[i]);
         }
         return *this;
     }
 
     MySet<T>& operator-=(const MySet<T>& s) {
+
         for (int i = 0; i < this->size; ++i) {
-            if (s.is_element(this->operator[](i))) {
-                this->delete_element(this->operator[](i));
+
+            if (s.is_element(((*this)[i]))) {
+                this->delete_element((*this)[i--]);
             }
         }
         return *this;
@@ -39,8 +41,8 @@ class MySet : public MyVector<T> {
 
     MySet<T>& operator*=(const MySet<T>& s) {
         for (int i = 0; i < this->size; ++i) {
-            if (!s.is_element(this->operator[](i))) {
-                this->delete_element(this->operator[](i));
+            if (!s.is_element((*this)[i])) {
+                this->delete_element((*this)[i]);
             }
         }
         return *this;
@@ -62,7 +64,7 @@ class MySet : public MyVector<T> {
 
     bool is_element(T el) const {
         for (int i = 0; i < this->size; ++i) {
-            if (this->operator[](i) == el) {
+            if ((*this)[i] == el) {
                 return true;
             }
         }
@@ -75,7 +77,7 @@ class MySet : public MyVector<T> {
             if (i > 0) {
                 out << ", ";
             }
-            out << s.operator[](i);
+            out << s[i];
         }
         out << "}";
         return out;
