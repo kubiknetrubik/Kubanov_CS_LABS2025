@@ -18,7 +18,6 @@ class MySet : public MyVector<T> {
     friend MySet<F>& operator*=( MySet<F>& a,const MySet<F>& b);
     void add_element(T el);
     void delete_element(T el);
-
     bool is_element(T el) const;
     template <class F>
     friend std::ostream& operator<<(std::ostream& out, const MySet<F>& s);
@@ -75,7 +74,7 @@ template <class F>
 MySet<F>& operator*=( MySet<F>& a,const MySet<F>& b) {
     for (int i = 0; i < a.size; ++i) {
         if (!b.is_element(a[i])) {
-            a.delete_element(a[i]);
+            a.delete_element(a[i--]);
         }
     }
     return a;
@@ -119,6 +118,27 @@ bool MySet<T>::is_element(T el)const  {
 }
 template <>
 bool MySet<const char*>::is_element(const char* el) const{
+    int left = 0;
+    int right = this->size - 1;
+
+    while (left <= right) {
+        int middle = (left + right) / 2;
+        if (std::strcmp((*this)[middle],  el) > 0) {
+            right = middle - 1;
+        }
+         else {
+            left = middle + 1;
+        }
+
+        if (std::strcmp((*this)[middle],  el) == 0) {
+            return true;
+        }
+    }
+
+    return false;
+}
+template <>
+bool MySet<char*>::is_element(char* el) const{
     int left = 0;
     int right = this->size - 1;
 

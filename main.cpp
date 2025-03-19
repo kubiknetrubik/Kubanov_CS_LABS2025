@@ -61,7 +61,26 @@ int main() {
         std::cout << "Множество s1=s3\n";
     else
         std::cout << "Множество s1!=s3\n";
+    MySet s9(1);
+    s9.add_element(4);
+    s9.add_element(5);
+    s9.add_element(6);
+    MySet s10(1);
+    s10.add_element(2);
+    s10.add_element(3);
+    s10.add_element(4);
+    std::cout<<s9<<std::endl;
+    std::cout<<s10<<std::endl;
+    MySet ss=s9+s10;
+    std::cout<<"+"<<ss<<std::endl;
+    MySet ss1=s9*s10;
+    std::cout<<"*"<<ss1<<std::endl;
+    ss=s9-s10;
+    std::cout<<"-"<<ss<<std::endl;
+
+
     return 0;
+
 
 
 }
