@@ -39,26 +39,36 @@ std::ostream& operator<<(std::ostream& out, Term& el) {
     return out;
 }
 std::istream& operator>>(std::istream& in, Term& el) {
-    el.coef = 1;
-    el.degree = 0;
+    char buffer[100]{};
+    in.getline(buffer, 100);
 
-    char ch;
+    char* xCoords = strchr(buffer, 'x');
 
-    in >> el.coef;
-    while (in.peek() == ' ') {
-        in.ignore();
-    }
-    if (in.peek() == 'x') {
+    if (xCoords) {
+        *xCoords = '\0';
 
-        in >> ch;
-        el.degree = 1;
-        while (in.peek() == ' ') {
-            in.ignore();
+        if (*buffer == '\0' || strcmp(buffer, "+") == 0) {
+            el.coef = 1;
+        } else if (strcmp(buffer, "-") == 0) {
+            el.coef = -1;
+        } else {
+            el.coef = atoi(buffer);
         }
-        if (in.peek() == '^') {
-            in >> ch;
-            in >> el.degree;
+
+        char* degPart = strchr(xCoords + 1, '^');
+        if (degPart) {
+            el.degree= atoi(degPart + 1);
+        } else {
+            el.degree = 1;
         }
+    } else {
+        el.coef = atoi(buffer);
+        el.degree = 0;
     }
+
     return in;
+}
+int Term::getc(){
+    return coef;
+
 }

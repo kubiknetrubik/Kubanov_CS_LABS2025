@@ -76,7 +76,7 @@ Polynomial& Polynomial::operator*=(const Polynomial& p) {
     Polynomial result;
     for (int i = 0; i < size; ++i) {
         for (int j = 0; j < p.size; ++j) {
-            result += Polynomial(Term(poly[i].coef * p.poly[j].coef,poly[i].degree * p.poly[j].degree));
+            result += Polynomial(Term(poly[i].coef * p.poly[j].coef,poly[i].degree + p.poly[j].degree));
         }
     }
 
@@ -113,23 +113,56 @@ std::ostream& operator<<(std::ostream& out, Polynomial& p) {
 
 
     for (int i = 0; i < p.size; ++i) {
+        if(p.poly[i].getc()>0&&i>0){
+            out<<"+";
+        }
         out<<p.poly[i]<<" ";
     }
 
     return out;
 }
 std::istream& operator>>(std::istream& in, Polynomial& p) {
-    delete[] p.poly;
-    p.poly = nullptr;
-    p.size = 0;
-    p.degree = 0;
-    Term x;
-    in>>x;
-    std::cout<<x<<std::endl;
-    p+=Polynomial(x);
+    char buffer[1000];
+    in.getline(buffer, 1000);
+
+    char* ptr = buffer;
+    char sign = '+';
+    while (*ptr == ' ') {
+        ++ptr;
+    }
+
+    if (*ptr == '+' || *ptr == '-') {
+        sign = *ptr;
+        ++ptr;
+    }
+
+    while (*ptr) {
 
 
 
 
+        char termBuffer[50];
+        termBuffer[0] = sign;
+        std::strcpy(termBuffer + 1, ptr);
+
+        std::istringstream tempStream(termBuffer);
+
+        Term temp;
+        tempStream >> temp;
+        p += Polynomial(temp);
+
+        char* op = std::strchr(ptr, '+');
+        char* minus = std::strchr(ptr, '-');
+        if (minus && (!op || minus < op)) {
+            op = minus;
+        }
+
+        if (op) {
+            sign = *op;
+            ptr = op + 1;
+        } else {
+            break;
+        }
+    }
     return in;
 }

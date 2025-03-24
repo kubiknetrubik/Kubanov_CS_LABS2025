@@ -15,6 +15,7 @@ public:
     friend std::ostream& operator<<(std::ostream& out, Term& el);
     friend std::istream& operator>>(std::istream& in, Term& el);
     friend class Polynomial;
+    int getc();
 
 
 
