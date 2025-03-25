@@ -111,12 +111,16 @@ std::ostream& operator<<(std::ostream& out, Polynomial& p) {
         return out << 0;
     }
 
-
+    int c=0;
     for (int i = 0; i < p.size; ++i) {
-        if(p.poly[i].getc()>0&&i>0){
-            out<<"+";
+
+        if(p.poly[i].getc()!=0){
+            if(p.poly[i].getc()>0&&c>0){
+                out<<"+";
+            }
+            out<<p.poly[i]<<" ";
+            c++;
         }
-        out<<p.poly[i]<<" ";
     }
 
     return out;
@@ -127,6 +131,7 @@ std::istream& operator>>(std::istream& in, Polynomial& p) {
 
     char* ptr = buffer;
     char sign = '+';
+
     while (*ptr == ' ') {
         ++ptr;
     }
@@ -137,9 +142,15 @@ std::istream& operator>>(std::istream& in, Polynomial& p) {
     }
 
     while (*ptr) {
+        while (*ptr == ' ') {
+            ++ptr;
+        }
 
-
-
+        char* op = std::strchr(ptr, '+');
+        char* minus = std::strchr(ptr, '-');
+        if (minus && (!op || minus < op)) {
+            op = minus;
+        }
 
         char termBuffer[50];
         termBuffer[0] = sign;
@@ -151,11 +162,7 @@ std::istream& operator>>(std::istream& in, Polynomial& p) {
         tempStream >> temp;
         p += Polynomial(temp);
 
-        char* op = std::strchr(ptr, '+');
-        char* minus = std::strchr(ptr, '-');
-        if (minus && (!op || minus < op)) {
-            op = minus;
-        }
+
 
         if (op) {
             sign = *op;

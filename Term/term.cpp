@@ -39,8 +39,8 @@ std::ostream& operator<<(std::ostream& out, Term& el) {
     return out;
 }
 std::istream& operator>>(std::istream& in, Term& el) {
-    char buffer[100]{};
-    in.getline(buffer, 100);
+    char buffer[50]{};
+    in.getline(buffer, 50);
 
     char* xCoords = strchr(buffer, 'x');
 
