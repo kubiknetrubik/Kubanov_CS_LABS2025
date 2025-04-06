@@ -6,5 +6,5 @@ Artiodactyls::~Artiodactyls(){
     std::cout<<"~Artiodactyls()"<<std::endl;
 }
 void Artiodactyls::show() const{
-    std::cout<<"Наименование парнокопытного- "<<name<<" , с теплокровностью"<<warmBloodnessMeasure<<" , с количеством копыт"<<hoopQuntity<<std::endl;
+    std::cout<<"Наименование парнокопытного- "<<name<<" , с теплокровностью "<<warmBloodnessMeasure<<" , с количеством копыт "<<hoopQuntity<<std::endl;
 }

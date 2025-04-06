@@ -6,5 +6,5 @@ Mammals::~Mammals(){
     std::cout<<"~Mammals()"<<std::endl;
 }
 void Mammals::show() const{
-    std::cout<<"Наименование млекопитающего- "<<name<<" , с теплокровностью"<<warmBloodnessMeasure<<std::endl;
+    std::cout<<"Наименование млекопитающего- "<<name<<" , с теплокровностью "<<warmBloodnessMeasure<<std::endl;
 }

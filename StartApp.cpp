@@ -1,15 +1,17 @@
 #include "StartApp.hpp"
 namespace StartApp{
 void AddEl(MyStack<Animals*>& animals) {
-    char name[100];
-    std::cout << "Введите имя животного: ";
-    std::cin.getline(name, 100);
+
     int type;
     std::cout << "Выберите вид животного:" << std::endl;
     std::cout << "1. Птица" << std::endl;
     std::cout << "2. Млекопитающее" << std::endl;
     std::cout << "3. Парнокопытное" << std::endl;
     std::cin >> type;
+    char name[100];
+    std::cout << "Введите имя животного: "<< std::endl;
+    std::cin.ignore();
+    std::cin.getline(name, 100);
 
     switch (static_cast<AnimalType>(type)) {
         case AnimalType::Birds: {
@@ -42,7 +44,17 @@ void AddEl(MyStack<Animals*>& animals) {
     std::cout <<'\n';
 }
 void Demo(MyStack<Animals*>& animals){
+    animals.push(new Birds("Сокол",2));
+    animals.push(new Mammals("Кот", 50));
+    animals.push(new Artiodactyls("Лошадь", 20, 4));
+    print(animals);
 
+    std::cout << "Удаление второго элемента:" << std::endl;
+    remove(animals, 2);
+    print(animals);
+    std::cout << "Очистка контейнера с животными:" << std::endl;
+    clear(animals);
+    print(animals);
 }
 
 void Menu() {
@@ -83,6 +95,7 @@ void Menu() {
                 Demo(animals);
                 break;
             case Task::Exit:
+                clear(animals);
                 break;
             default:
                 std::cout << "Неверный номер задания" << std::endl;

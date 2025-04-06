@@ -1,6 +1,5 @@
 #include <iostream>
-#include "../Animals/animals.hpp"
-#pragma once
+
 // Файл MyStack.h
 // Шаблонный класс MyStack на основе односвязного списка.
 #ifndef MyStack_hpp  // защита от повторной компиляции
@@ -53,48 +52,10 @@ class MyStack {
     INF top_inf(void);  // считать информацию из вершины стека
     MyStack(const MyStack& other);
     MyStack<INF>& operator=(const MyStack<INF>& other);
-    template<class F>
-    inline static void print(MyStack<F>& animals);
-    template<class F>
-    inline static bool remove(MyStack<F>& animals, int index);
+
 
     friend std::ostream& operator<< <>(std::ostream& out, const MyStack& el);
 };
-
-template<>
-bool MyStack<Animals*>::remove(MyStack<Animals*>& animals, int index){
-    if (animals.empty()) {
-        std::cout << "Пустой" << std::endl;
-        return false;
-    }
-    MyStack<Animals*>::Node* ptr = animals.top;
-    int i=0;
-    while(ptr){
-        if(i==index){
-            ((ptr->d))->show();
-        }
-        ++i;
-        ptr=ptr->next;
-
-    }
-    return true;
-
-}
-template<>
-void MyStack<Animals*>::print(MyStack<Animals*>& animals) {
-    if (animals.empty()) {
-        std::cout << "Пустой" << std::endl;
-        return;
-    }
-    MyStack<Animals*>::Node* ptr = animals.top;
-    std::cout << "Содержимое стека:" << std::endl;
-    ((ptr->d))->show();
-    ptr=ptr->next;
-    while (ptr) {
-        ((ptr->d))->show();
-        ptr=ptr->next;
-    }
-}
 
 template<class INF>
 std::ostream& operator<<(std::ostream& out, const MyStack<INF>& el) {
