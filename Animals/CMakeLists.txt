@@ -1,15 +1,15 @@
 cmake_minimum_required(VERSION 3.23)
 
-set(project "Polynomial")
+set(project "Animals")
 project(${project})
 
 set(CMAKE_CXX_STANDARD 17)
 
 set(${project}_SOURCES
-        polynomial.cpp)
+        animals.cpp mammals.cpp artiodactyls.cpp birds.cpp)
 
 set(${project}_HEADERS
-        polynomial.hpp)
+        animals.hpp mammals.hpp artiodactyls.hpp birds.hpp)
 
 set(${project}_SOURCE_LIST
         ${${project}_SOURCES}
@@ -18,4 +18,3 @@ set(${project}_SOURCE_LIST
 add_library(${project}
         STATIC
         ${${project}_SOURCE_LIST})
-target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})

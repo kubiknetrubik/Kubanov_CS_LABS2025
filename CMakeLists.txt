@@ -1,18 +1,31 @@
 cmake_minimum_required(VERSION 3.23)
 
-project(lab6)
+set(project "lab7")
+project(${project})
 
 set(CMAKE_CXX_STANDARD 17)
 
-set(SOURCES main.cpp)
+set(SOURCES
+    ${CMAKE_CURRENT_SOURCE_DIR}/main.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/StartApp.cpp
+)
 
-add_subdirectory(Polynomial)
-add_subdirectory(Term)
+set(HEADERS
+    ${CMAKE_CURRENT_SOURCE_DIR}/StartApp.hpp
+)
 
-add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
+add_subdirectory(Animals)
+add_subdirectory(Features)
+add_subdirectory(MyStack)
 
-target_include_directories(${PROJECT_NAME} PUBLIC Polynomial)
-target_link_libraries(${PROJECT_NAME} Polynomial)
+set(${project}_SOURCE_LIST
+        ${${project}_SOURCES})
 
-target_include_directories(${PROJECT_NAME} PUBLIC Term)
-target_link_libraries(${PROJECT_NAME} Term)
+
+add_executable(${CMAKE_PROJECT_NAME} ${SOURCES} ${HEADERS})
+if(ENABLE_DEBUG)
+    target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE -g3)
+endif()
+target_link_libraries(${project} Animals)
+target_link_libraries(${project} Features)
+target_link_libraries(${project} MyStack)

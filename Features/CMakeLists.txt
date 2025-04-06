@@ -1,15 +1,15 @@
 cmake_minimum_required(VERSION 3.23)
 
-set(project "Term")
+set(project "Features")
 project(${project})
 
 set(CMAKE_CXX_STANDARD 17)
 
 set(${project}_SOURCES
-        term.cpp)
+        features.cpp)
 
 set(${project}_HEADERS
-        term.hpp)
+        features.hpp)
 
 set(${project}_SOURCE_LIST
         ${${project}_SOURCES}
@@ -18,4 +18,3 @@ set(${project}_SOURCE_LIST
 add_library(${project}
         STATIC
         ${${project}_SOURCE_LIST})
-target_include_directories(${PROJECT_NAME} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
