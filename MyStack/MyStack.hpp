@@ -26,9 +26,20 @@ class ListNode  // узел списка
         }
         return *this;
     }
+
     friend FRIEND;
     template<class T>
     friend std::ostream& operator<<(std::ostream& out, const MyStack<T>& el);
+public:
+    INF GetD(){
+        return d;
+    }
+    ListNode* GetNext(){
+        return next;
+    }
+    void SetNext(ListNode* n){
+        next=n;
+    }
 };
 
 // Шаблонный класс MyStack на основе односвязного списка.
@@ -52,6 +63,13 @@ class MyStack {
     INF top_inf(void);  // считать информацию из вершины стека
     MyStack(const MyStack& other);
     MyStack<INF>& operator=(const MyStack<INF>& other);
+    Node* GetTop(){
+        return top;
+    }
+    void SetTop(Node* t ){
+        top=t;
+    }
+
 
 
     friend std::ostream& operator<< <>(std::ostream& out, const MyStack& el);

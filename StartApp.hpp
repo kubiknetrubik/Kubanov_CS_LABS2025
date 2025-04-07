@@ -23,4 +23,7 @@ enum class AnimalType {
 void Menu();
 void AddEl(MyStack<Animals*>& animals);
 void Demo(MyStack<Animals*>& animals);
+void Print(MyStack<Animals*>& animals);
+void Clear(MyStack<Animals*>& animals);
+void Remove(MyStack<Animals*>& animals, int index);
 }

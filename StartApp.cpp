@@ -1,5 +1,78 @@
 #include "StartApp.hpp"
+typedef ListNode<Animals*, MyStack<Animals*>> Node;
 namespace StartApp{
+void Clear(MyStack<Animals*>& animals){
+    while (!animals.empty()) {
+        Animals* ptr= animals.top_inf();
+        delete ptr;
+        animals.pop();
+    }
+}
+void Print(MyStack<Animals*>& animals){
+    if (animals.empty()) {
+        std::cout << "Стек пустой." << std::endl;
+        return;
+    }
+    int i = 0;
+    std::cout << "Содержимое стека:" << std::endl;
+    Node* ptr = animals.GetTop();
+    std::cout << i++ << ") ";
+    ((ptr->GetD()))->show();
+    ptr=ptr->GetNext();
+
+    while (ptr) {
+        std::cout << i++ << ") ";
+        ((ptr->GetD()))->show();
+        ptr=ptr->GetNext();
+    }
+
+
+
+}
+void Remove(MyStack<Animals*>& animals, int index){
+    if (animals.empty()) {
+        std::cout << "Пустой" << std::endl;
+    }
+    Node* ptr = animals.GetTop();
+    Node* prev= animals.GetTop();
+    int i=0;
+    while(ptr){
+        if(i==index){
+
+            if(ptr->GetNext()){
+                if(i==0){
+                    animals.SetTop(ptr->GetNext());
+                }else{
+                    prev->SetNext(ptr->GetNext());
+                }
+
+            }else{
+                prev->SetNext(nullptr);
+
+            }
+
+
+            if (i==0&&!(ptr->GetNext())){
+                animals.SetTop(nullptr);
+            }
+            delete ptr->GetD();
+            delete ptr;
+            break;
+
+        }
+        ++i;
+        prev=ptr;
+        ptr=ptr->GetNext();
+
+    }
+    if(!ptr){
+        std::cout<<"Такого индекса нет"<<std::endl;
+
+    }
+
+
+
+}
 void AddEl(MyStack<Animals*>& animals) {
 
     int type;
@@ -47,14 +120,14 @@ void Demo(MyStack<Animals*>& animals){
     animals.push(new Birds("Сокол",2));
     animals.push(new Mammals("Кот", 50));
     animals.push(new Artiodactyls("Лошадь", 20, 4));
-    print(animals);
+    Print(animals);
 
     std::cout << "Удаление второго элемента:" << std::endl;
-    remove(animals, 2);
-    print(animals);
+    Remove(animals, 2);
+    Print(animals);
     std::cout << "Очистка контейнера с животными:" << std::endl;
-    clear(animals);
-    print(animals);
+    Clear(animals);
+    Print(animals);
 }
 
 void Menu() {
@@ -79,26 +152,27 @@ void Menu() {
                 AddEl(animals);
                 break;
             case Task::Print:
-                print(animals);
+                Print(animals);
                 break;
             case Task::Delete: {
                 int index;
                 std::cout << "Введите индекс элемента для удаления: "<<std::endl;
                 std::cin >> index;
-                remove(animals, index);
+                Remove(animals, index);
                 break;
             }
             case Task::Clear:
-                clear(animals);
+                Clear(animals);
                 break;
             case Task::Demo:
                 Demo(animals);
                 break;
             case Task::Exit:
-                clear(animals);
+                Clear(animals);
                 break;
             default:
                 std::cout << "Неверный номер задания" << std::endl;
+                break;
         }
     }
 }
