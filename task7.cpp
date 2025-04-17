@@ -55,12 +55,12 @@ void print(std::list<Date> list) {
 }
 
 int main() {
-    std::list<Date> dates={Date(1, 2, 1963),Date(14, 7, 1995),Date(7, 12, 2088),Date(5, 3, 2030),Date(24, 9, 2013),Date(19, 9, 2020)};
+    std::list<Date> dates={Date(1, 2, 1963),Date(14, 7, 1995),Date(7, 12, 2088),Date(5, 3, 2030),Date(24, 9, 2013),Date(19, 9, 2025)};
     print(dates);
-
+    Date today={17,4,2025};
     std::list<Date> futureDates;
     for (Date date : dates) {
-        if (date.GetYear() > 2025) {
+        if (today<date) {
             futureDates.push_back(date);
         }
     }
